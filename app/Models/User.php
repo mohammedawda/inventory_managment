@@ -12,7 +12,8 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
-
+    const ADMIN = 1;
+    const NORMAL_USER = 2;
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**

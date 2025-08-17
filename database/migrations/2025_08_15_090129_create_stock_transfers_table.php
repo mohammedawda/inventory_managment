@@ -18,7 +18,6 @@ return new class extends Migration
                 $table->foreignId('from_warehouse_id')->constrained('warehouses');
                 $table->foreignId('to_warehouse_id')->constrained('warehouses');
                 $table->unsignedBigInteger('quantity');
-                $table->timestamp('transfer_date');
                 $table->foreignId('user_id')->nullable()->constrained('users');
                 $table->timestamps();
                 $table->index(['from_warehouse_id']);

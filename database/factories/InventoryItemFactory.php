@@ -19,7 +19,7 @@ class InventoryItemFactory extends Factory
         return [
             'name'  => substr(fake()->sentence(2), 0, 20),
             'sku'   => fake()->randomLetter() . '_' . rand(1, 200000),
-            'price' => fake()->randomFloat(10),
+            'price' => fake()->randomFloat(4, 1, 99999999),
         ];
     }
 }

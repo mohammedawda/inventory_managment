@@ -23,4 +23,19 @@ class Stock extends Model
     {
         return $this->quantity <= $this->min_stock_level;
     }
+     /**
+     * Format updated_at as Y-m-d H:i:s
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s') : null;
+    }
+
+    /**
+     * Format created_at as Y-m-d H:i:s
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s') : null;
+    }
 }

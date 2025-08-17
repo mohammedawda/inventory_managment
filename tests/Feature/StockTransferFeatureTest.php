@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Stock;
 use App\Models\Warehouse;
 use App\Models\InventoryItem;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StockTransferFeatureTest extends TestCase
@@ -21,6 +22,7 @@ class StockTransferFeatureTest extends TestCase
         Stock::create([
             'warehouse_id'      => $warehouseA->id,
             'inventory_item_id' => $item->id,
+            'min_stock_level'   => rand(1, 5),
             'quantity'          => 20,
         ]);
 
@@ -31,8 +33,12 @@ class StockTransferFeatureTest extends TestCase
             'quantity'          => 5,
         ];
 
-        $response = $this->postJson('/api/stock-transfers', $payload);
+        $user = User::factory()->create([
+            'password' => bcrypt('password123'),
+        ]);
+        $this->actingAs($user, 'sanctum');
 
+        $response = $this->postJson('/api/stock-transfers', $payload);
         $response->assertStatus(201)
                  ->assertJson(['message' => 'Stock transfer completed successfully.']);
 

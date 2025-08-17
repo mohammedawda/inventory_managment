@@ -3,24 +3,30 @@
 namespace App\Repositories;
 
 use App\Models\Stock;
-use Illuminate\Support\Facades\DB;
+use App\Traits\HasFilter;
 use Illuminate\Support\Facades\Cache;
-
 class StockRepository
 {
+    use HasFilter;
+
     public function index($request)
     {
-        $key = "warehouses_inventory";
-        $stocks = Cache::remember($key, now()->addMinutes(10), function () use ($request) {
-            return getTakenPreparedCollection(Stock::filter()
-                ->with([
-                    'warehouse' => fn($q) => $q->filter(), 
-                    'inventoryItem' => fn($q) => $q->filter()
-                ]),
-                $request->all()
-            );
-        });
-        return $stocks;
+        return getTakenPreparedCollection(Stock::filter()
+            ->with(['warehouse', 'item'])
+            ->whereHas('warehouse', fn($q) => $q->filter())
+            ->orWhereHas('item', fn($q) => $q->filter()),
+            $request->all()
+        );
+        // $key = "warehouses_inventory";
+        // $stocks = Cache::remember($key, now()->addMinutes(10), function () use ($request) {
+        //     return Stock::with(['warehouse', 'item'])->get();
+        // });
+        // $filter = $request->all();
+        // $stocks = $this->applyCustomFilterOnCollection($stocks, $filter)
+        //             ->applyCustomSearchOnCollection($stocks, $filter)
+        //             ->applyCustomRangeFilterOnCollection($stocks, $filter);
+        // dd($stocks);
+        // return $stocks;
     }
 
     public function store(array $data)

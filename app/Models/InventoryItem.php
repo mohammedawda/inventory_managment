@@ -12,7 +12,7 @@ class InventoryItem extends Model
     use HasFilter, HasSort, HasFactory;
 
     protected $filterBetween    = ['price' => ['from' => 'price_from', 'to' => 'price_to']];
-    protected $filterSearchCols = ['name'];
+    protected $searchable       = ['name'];
 
     protected $fillable = ['name', 'sku', 'price'];
     protected $casts    = [
@@ -23,4 +23,20 @@ class InventoryItem extends Model
     /* ============================== relations ============================== */
     public function stocks()     { return $this->hasMany(Stock::class); }
     public function warehouses() { return $this->belongsToMany(Warehouse::class, 'stock')->withPivot('quantity')->withTimestamps(); }
+    /* ============================== functions ============================== */
+    /**
+     * Format updated_at as Y-m-d H:i:s
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s') : null;
+    }
+
+    /**
+     * Format created_at as Y-m-d H:i:s
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s') : null;
+    }
 }

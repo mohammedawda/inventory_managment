@@ -3,6 +3,7 @@
 namespace App\Logic;
 
 use App\Repositories\UserRepository;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -44,9 +45,7 @@ class UserAuthentication
     {
         $user = $this->userRepository->findByEmail($this->payload->email);
         if (!$user || !Hash::check($this->payload->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            throw new Exception("The provided credentials are incorrect.", 401);
         }
         $token = $this->generateToken($user);
         return [

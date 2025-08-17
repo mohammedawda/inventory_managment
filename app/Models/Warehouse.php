@@ -10,10 +10,26 @@ class Warehouse extends Model
 {
     use HasFactory, HasFilter;
 
-    protected $filterSearchCols = ['name'];
+    protected $searchable = ['name'];
 
     protected $fillable = ['name', 'location'];
 
     /* ============================== relations ============================== */
     public function stocks() { return $this->hasMany(Stock::class); }
+    /* ============================== functions ============================== */
+    /**
+     * Format updated_at as Y-m-d H:i:s
+     */
+    public function getUpdatedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s') : null;
+    }
+
+    /**
+     * Format created_at as Y-m-d H:i:s
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return $value ? \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s') : null;
+    }
 }

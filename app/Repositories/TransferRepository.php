@@ -25,7 +25,7 @@ class TransferRepository
                         'quantity' => 'Insufficient stock in source warehouse.',
                     ]);
                 }
-    
+
                 // Lock destination row (or create)
                 $destination = $stockRepo->findLockForUpdateStock($request->to_warehouse_id, $request->inventory_item_id);
                 if (!$destination)
@@ -38,7 +38,7 @@ class TransferRepository
                 
                 // Log transfer
                 $transfer = $this->logTransfer($userId, $request->inventory_item_id, $request->from_warehouse_id, $request->to_warehouse_id, $request->quantity);
-                $transfer->load(['fromWarehouse', 'toWarehouse', 'inventoryItem']);
+                $transfer->load(['fromWarehouse', 'toWarehouse', 'item']);
     
                 // Invalidate caches for both warehouses
                 $this->forgetWarehouseInventoryCache($request->from_warehouse_id);
@@ -58,7 +58,7 @@ class TransferRepository
 
     public function index($request)
     {
-        return getTakenPreparedCollection(StockTransfer::filter()->with(['fromWarehouse', 'toWarehouse', 'inventoryItem', 'user']), $request->all());
+        return getTakenPreparedCollection(StockTransfer::filter()->with(['fromWarehouse', 'toWarehouse', 'item', 'user']), $request->all());
     }
 
     public function findTransfer(int $id)

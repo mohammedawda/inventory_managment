@@ -18,7 +18,7 @@ class StockTransferController extends Controller
     {
         try {
             $transfer = StockTransfer::make($request)->storeTransfer();
-            return sendResponse(true, "Transfer completed", $transfer, 201);
+            return sendResponse(true, "Stock transfer completed successfully.", $transfer, 201);
         } catch(Throwable $e) {
             return Throwable($e);
         }
@@ -32,7 +32,7 @@ class StockTransferController extends Controller
     {
         try {
             $result = StockTransfer::make($request)->listTransfers();
-            return sendResponse(true, "Transfer completed", $result, 201);
+            return sendResponse(true, "List transfers", $result, 201);
         } catch(Throwable $e) {
             return Throwable($e);
         }
@@ -46,7 +46,7 @@ class StockTransferController extends Controller
     {
         try {
             $transfer = StockTransfer::make()->showTransfer($id);
-            return sendResponse(true, "Transfer completed", $transfer, 201);
+            return sendResponse(true, "Transfer details", $transfer, 201);
         } catch(Throwable $e) {
             return Throwable($e);
         }

@@ -57,4 +57,26 @@ trait HasFilter
 
         return $query;
     }
+
+    protected function applyCustomFilterOnCollection($collection, array $filters)
+    {
+        if(empty($filters))
+            return $collection;
+
+        foreach($filters as $column => $value) {
+            $collection = $collection->where($column, $value);
+        }
+        return $collection;
+    }
+
+    protected function applyCustomSearchOnCollection($collection, array $filters)
+    {
+        if(empty($filters))
+            return $collection;
+
+        foreach($filters as $column => $value) {
+            $collection = $collection->where($column, $value);
+        }
+        return $collection;
+    }
 }

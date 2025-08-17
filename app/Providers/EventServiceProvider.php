@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Events\LowStockDetected;
 use App\Listeners\LogLowStockNotification;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 class EventServiceProvider extends ServiceProvider
 {
