@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
+use Throwable;
 use App\Models\User;
 use App\Notifications\NotifyLowStockToAdmin;
-use Throwable;
 
-class LogLowStockNotification
+class LogLowStockListener
 {
     /**
      * Create the event listener.
@@ -25,7 +25,7 @@ class LogLowStockNotification
             $admin = User::where('role', User::ADMIN)->first();
             $admin->notify(new NotifyLowStockToAdmin($event));
         } catch(Throwable $e) {
-            dd($e);
+            throw $e;
         }
     }
 }

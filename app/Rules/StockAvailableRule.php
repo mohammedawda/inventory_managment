@@ -27,8 +27,10 @@ class StockAvailableRule implements ValidationRule
                      ->where('inventory_item_id', $this->inventoryItemId)
                      ->value('quantity');
 
-        if($available == null)
+        if($available == null) {
+            $fail("Invalid stock or this stock may not have a target quantity");
             return;
+        }
 
         if ($available < $value)
             $fail("Insufficient stock in source warehouse: {$available} available.");
