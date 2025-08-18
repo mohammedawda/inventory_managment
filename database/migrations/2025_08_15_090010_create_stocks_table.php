@@ -18,6 +18,7 @@ return new class extends Migration
                 $table->foreignId('inventory_item_id')->constrained('inventory_items')->cascadeOnDelete()->cascadeOnUpdate();
                 $table->unsignedBigInteger('quantity')->default(0);
                 $table->integer('min_stock_level')->default(0);
+                $table->boolean('is_notified_low_stock')->default(false);
                 $table->timestamps();
                 $table->unique(['warehouse_id', 'inventory_item_id']);
                 $table->index(['warehouse_id']);

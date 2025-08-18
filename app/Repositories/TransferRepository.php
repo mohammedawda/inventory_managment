@@ -46,7 +46,7 @@ class TransferRepository
 
                 if ($source->isLowStock()) {
                     $item = ( new InventoryRepository() )->find($request->inventory_item_id);
-                    LowStockDetected::dispatch($source->warehouse, $item, $source->quantity);
+                    LowStockDetected::dispatch($source, $item);
                 }
     
                 return $transfer;

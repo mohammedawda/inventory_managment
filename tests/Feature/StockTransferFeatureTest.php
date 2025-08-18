@@ -45,13 +45,13 @@ class StockTransferFeatureTest extends TestCase
         $this->assertDatabaseHas('stocks', [
             'warehouse_id'      => $warehouseA->id,
             'inventory_item_id' => $item->id,
-            'quantity'          => 15, // reduced
+            'quantity'          => 15,
         ]);
 
         $this->assertDatabaseHas('stocks', [
             'warehouse_id'      => $warehouseB->id,
             'inventory_item_id' => $item->id,
-            'quantity'          => 5, // added
+            'quantity'          => 5,
         ]);
     }
 }

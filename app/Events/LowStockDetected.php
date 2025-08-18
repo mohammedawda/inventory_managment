@@ -4,10 +4,9 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Queue\SerializesModels;
 use App\Models\InventoryItem;
-use App\Models\Warehouse;
+use App\Models\Stock;
 
 class LowStockDetected
 {
@@ -17,8 +16,7 @@ class LowStockDetected
      * Create a new event instance.
      */
     public function __construct(
-        public Warehouse $warehouse,
+        public Stock $stock,
         public InventoryItem $item,
-        public int $quantity
     ) {}
 }

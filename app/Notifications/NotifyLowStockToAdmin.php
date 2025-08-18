@@ -28,10 +28,19 @@ class NotifyLowStockToAdmin extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
+        dd('@@@@');
+        $body = (new MailMessage)
             ->subject('Low stock detection')
-            ->line("Warning! your warehouse " . $this->event->warehouse->name . "with id: " . $this->event->warehouse->id . " is in low quantity")
-            ->line("Last quantity detected: " . $this->event->quantity);
+            ->line("Warning! your warehouse " . $this->event->stock?->warehouse?->name . "with id: " . $this->event->stock?->warehouse?->id . " is in low quantity")
+            ->line("last inventory item: ". $this->event->item?->name)
+            ->line("Last quantity detected: " . $this->event->stock?->quantity);
+        
+        if($body instanceof MailMessage) {
+            $this->event->stock->is_notified_low_stock = 1;
+            $this->event->stock->save();
+            dump($this->event->stock->is_notified_low_stock);
+        }
+        return $body;
     }
 
     /**

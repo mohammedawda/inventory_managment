@@ -15,22 +15,18 @@ use Illuminate\Support\Facades\Hash;
 
 class LowStockEventTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     public function test_low_stock_event_is_dispatched()
     {
         Event::fake();
 
-        $user      = User::create([
-            'name'              => "admin",
-            'email'             => "admin@email.com",
-            'email_verified_at' => now(),
-            'password'          => Hash::make('123456'),
-            'role'              => 1,
-            'remember_token'    => Str::random(10),
-        ]);
-        $warehouse = Warehouse::factory()->create();
-        $item      = InventoryItem::factory()->create();
+        $user       = User::factory()->create();
+        $user->role = 1;
+        $user->save();
+
+        $warehouse  = Warehouse::factory()->create();
+        $item       = InventoryItem::factory()->create();
 
         Stock::create([
             'warehouse_id'      => $warehouse->id,
@@ -47,6 +43,6 @@ class LowStockEventTest extends TestCase
             'quantity'          => 1,
         ]);
         Event::assertDispatched(LowStockDetected::class);
-        $response->assertStatus(201); // or whatever status you expect
+        $response->assertStatus(201);
     }
 }
